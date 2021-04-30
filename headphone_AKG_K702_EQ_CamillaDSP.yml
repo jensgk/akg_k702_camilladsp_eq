@@ -1,0 +1,142 @@
+---
+# CamillaDSP setup file:
+# EQ setting for AKG K701 by crinacle from
+# 24.04.21:
+# https://github.com/jaakkopasanen/AutoEq/tree/master/results/crinacle/gras_43ag-7_harman_over-ear_2018/AKG%20K702
+#
+# BiQuadDesigner for Free Biquad filters (used instead of shelving fitlers):
+# https://arachnoid.com/BiQuadDesigner/index.html
+
+devices:
+  samplerate: 96000
+  chunksize: 16384
+  silence_threshold: -60
+  silence_timeout: 3.0
+  capture:
+    type: Alsa
+    channels: 2
+    device: "hw:Loopback,1"
+    format: S24LE3
+  playback:
+    type: Alsa
+    channels: 2
+    device: "hw:v15,0"
+    format: S24LE3
+
+filters:
+  AKGK702_crinacle_24042021_gain:
+    type: Gain
+    parameters:
+      gain: -6.2
+
+  AKGK702_crinacle_24042021_band01:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 27
+      gain: 6.3
+      q: 0.27
+
+  AKGK702_crinacle_24042021_band02:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 147
+      gain: -2.8
+      q: 0.5
+
+  AKGK702_crinacle_24042021_band03:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 722
+      gain: 2.0
+      q: 1.12
+
+  AKGK702_crinacle_24042021_band04:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 2250
+      gain: -4.6
+      q: 3.26
+
+  AKGK702_crinacle_24042021_band05:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 10168
+      gain: 4.0
+      q: 2.23
+
+  AKGK702_crinacle_24042021_band06:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 1064
+      gain: -0.4
+      q: 5.29
+
+  AKGK702_crinacle_24042021_band07:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 2752
+      gain: -0.8
+      q: 4.93
+
+  AKGK702_crinacle_24042021_band08:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 4014
+      gain: 1.3
+      q: 2.49
+
+  AKGK702_crinacle_24042021_band09:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 13055
+      gain: 2.4 
+      q: 1.51
+
+  AKGK702_crinacle_24042021_band10:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 19758
+      gain: -8.4
+      q: 0.44
+
+
+pipeline:
+  - type: Filter
+    channel: 0
+    names:
+      - AKGK702_crinacle_24042021_gain
+      - AKGK702_crinacle_24042021_band01
+      - AKGK702_crinacle_24042021_band02
+      - AKGK702_crinacle_24042021_band03
+      - AKGK702_crinacle_24042021_band04
+      - AKGK702_crinacle_24042021_band05
+      - AKGK702_crinacle_24042021_band06
+      - AKGK702_crinacle_24042021_band07
+      - AKGK702_crinacle_24042021_band08
+      - AKGK702_crinacle_24042021_band09
+      - AKGK702_crinacle_24042021_band10
+
+  - type: Filter
+    channel: 1
+    names:
+      - AKGK702_crinacle_24042021_gain
+      - AKGK702_crinacle_24042021_band01
+      - AKGK702_crinacle_24042021_band02
+      - AKGK702_crinacle_24042021_band03
+      - AKGK702_crinacle_24042021_band04
+      - AKGK702_crinacle_24042021_band05
+      - AKGK702_crinacle_24042021_band06
+      - AKGK702_crinacle_24042021_band07
+      - AKGK702_crinacle_24042021_band08
+      - AKGK702_crinacle_24042021_band09
+      - AKGK702_crinacle_24042021_band10

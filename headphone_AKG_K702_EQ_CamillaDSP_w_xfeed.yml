@@ -1,0 +1,254 @@
+---
+# CamillaDSP setup file:
+# EQ setting for AKG K701 by crinacle from
+# 24.04.21:
+# https://github.com/jaakkopasanen/AutoEq/tree/master/results/crinacle/gras_43ag-7_harman_over-ear_2018/AKG%20K702
+#
+# BiQuadDesigner for Free Biquad filters (used instead of shelving fitlers):
+# https://arachnoid.com/BiQuadDesigner/index.html
+
+# With Crossfeed:
+# https://www.bitlab.nl/wp-content/uploads/2021/03/linkwitz_1971.yml
+
+devices:
+  samplerate: 96000
+  chunksize: 16384
+  silence_threshold: -60
+  silence_timeout: 3.0
+  capture:
+    type: Alsa
+    channels: 2
+    device: "hw:Loopback,1"
+    format: S24LE3
+  playback:
+    type: Alsa
+    channels: 2
+    device: "hw:v15,0"
+    format: S24LE3
+
+filters:
+  AKGK702_crinacle_24042021_gain:
+    type: Gain
+    parameters:
+      gain: -6.2
+
+  AKGK702_crinacle_24042021_band01:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 27
+      gain: 6.3
+      q: 0.27
+
+  AKGK702_crinacle_24042021_band02:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 147
+      gain: -2.8
+      q: 0.5
+
+  AKGK702_crinacle_24042021_band03:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 722
+      gain: 2.0
+      q: 1.12
+
+  AKGK702_crinacle_24042021_band04:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 2250
+      gain: -4.6
+      q: 3.26
+
+  AKGK702_crinacle_24042021_band05:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 10168
+      gain: 4.0
+      q: 2.23
+
+  AKGK702_crinacle_24042021_band06:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 1064
+      gain: -0.4
+      q: 5.29
+
+  AKGK702_crinacle_24042021_band07:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 2752
+      gain: -0.8
+      q: 4.93
+      
+  AKGK702_crinacle_24042021_band08:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 4014
+      gain: 1.3
+      q: 2.49
+
+  AKGK702_crinacle_24042021_band09:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 13055
+      gain: 2.4 
+      q: 1.51
+
+  AKGK702_crinacle_24042021_band10:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 19758
+      gain: -8.4
+      q: 0.44
+
+  # Filters for Crossfeed
+  hp700:
+    type: Biquad
+    parameters:
+      freq: 700
+      gain: 2
+      slope: 6
+      type: Highshelf
+      
+  lp700:
+    type: Biquad
+    parameters:
+      freq: 700
+      type: LowpassFO
+      
+# Mixers for Crossfeed     
+mixers:
+  2to4:
+    channels:
+      in: 2
+      out: 4
+    mapping:
+    - dest: 0
+      mute: false
+      sources:
+      - channel: 0
+        gain: -2
+        inverted: false
+        mute: false
+    - dest: 1
+      mute: false
+      sources:
+      - channel: 0
+        gain: -5
+        inverted: false
+        mute: false
+    - dest: 2
+      mute: false
+      sources:
+      - channel: 1
+        gain: -5
+        inverted: false
+        mute: false
+    - dest: 3
+      mute: false
+      sources:
+      - channel: 1
+        gain: -2
+        inverted: false
+        mute: false
+  4to2:
+    channels:
+      in: 4
+      out: 2
+    mapping:
+    - dest: 0
+      mute: false
+      sources:
+      - channel: 0
+        gain: -2
+        inverted: false
+        mute: false
+      - channel: 2
+        gain: -2
+        inverted: false
+        mute: false
+    - dest: 1
+      mute: false
+      sources:
+      - channel: 1
+        gain: -2
+        inverted: false
+        mute: false
+      - channel: 3
+        gain: -2
+        inverted: false
+        mute: false  
+
+pipeline:
+
+# Crossfeed
+
+  - name: 2to4
+    type: Mixer
+  
+  - channel: 0
+    names:
+    - hp700
+    type: Filter
+    
+  - channel: 1
+    names:
+    - lp700
+    type: Filter
+    
+  - channel: 2
+    names:
+    - lp700
+    type: Filter
+    
+  - channel: 3
+    names:
+    - hp700
+    type: Filter
+    
+  - name: 4to2
+    type: Mixer
+
+
+# Headphone EQ
+
+  - type: Filter
+    channel: 0
+    names:
+      - AKGK702_crinacle_24042021_gain
+      - AKGK702_crinacle_24042021_band01
+      - AKGK702_crinacle_24042021_band02
+      - AKGK702_crinacle_24042021_band03
+      - AKGK702_crinacle_24042021_band04
+      - AKGK702_crinacle_24042021_band05
+      - AKGK702_crinacle_24042021_band06
+      - AKGK702_crinacle_24042021_band07
+      - AKGK702_crinacle_24042021_band08
+      - AKGK702_crinacle_24042021_band09
+      - AKGK702_crinacle_24042021_band10
+
+  - type: Filter
+    channel: 1
+    names:
+      - AKGK702_crinacle_24042021_gain
+      - AKGK702_crinacle_24042021_band01
+      - AKGK702_crinacle_24042021_band02
+      - AKGK702_crinacle_24042021_band03
+      - AKGK702_crinacle_24042021_band04
+      - AKGK702_crinacle_24042021_band05
+      - AKGK702_crinacle_24042021_band06
+      - AKGK702_crinacle_24042021_band07
+      - AKGK702_crinacle_24042021_band08
+      - AKGK702_crinacle_24042021_band09
+      - AKGK702_crinacle_24042021_band10
