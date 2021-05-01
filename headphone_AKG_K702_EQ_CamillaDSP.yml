@@ -6,37 +6,42 @@
 #
 # BiQuadDesigner for Free Biquad filters (used instead of shelving fitlers):
 # https://arachnoid.com/BiQuadDesigner/index.html
-
-# devices:
-#   samplerate: 96000
-#   chunksize: 16384
-#   silence_threshold: -60
-#   silence_timeout: 3.0
-#   capture:
-#     type: Alsa
-#     channels: 2
-#     device: "hw:Loopback,1"
-#     format: S24LE3
-#   playback:
-#     type: Alsa
-#     channels: 2
-#     device: "hw:v15,0"
-#     format: S24LE3
+#
+# See: 
+# https://github.com/scripple/alsa_cdsp
+# https://www.diyaudio.com/forums/pc-based/349818-camilladsp-cross-platform-iir-fir-engine-crossovers-correction-etc-198.html
+# 
 
 devices:
-  samplerate: $samplerate$
+  samplerate: 96000
   chunksize: 16384
-  queuelimit: 1
+  silence_threshold: -60
+  silence_timeout: 3.0
   capture:
-    type: File
-    channels: $channels$
-    filename: "/dev/stdin"
-    format: $format$
+    type: Alsa
+    channels: 2
+    device: "hw:Loopback,1"
+    format: S24LE3
   playback:
-    type: ALSA
-    channels: $channels$
-    device: "hw:0"
-    format: S32LE
+    type: Alsa
+    channels: 2
+    device: "hw:v15,0"
+    format: S24LE3
+
+# devices:
+#   samplerate: $samplerate$
+#   chunksize: 16384
+#   queuelimit: 1
+#   capture:
+#     type: File
+#     channels: $channels$
+#     filename: "/dev/stdin"
+#     format: $format$
+#   playback:
+#     type: ALSA
+#     channels: $channels$
+#     device: "hw:0"
+#     format: S32LE
 
 filters:
   AKGK702_crinacle_24042021_gain:
