@@ -16,7 +16,10 @@ Then upload the two files one by one, and press SAVE (top of CamillaDSP Config p
 To use them, just choose the file under CamillaDSP Config: General -> Configuration dropdown list, and press SAVE (top of CamillaDSP Config page).
 
 Moode Player is available from: http://moodeaudio.org/
+
 CamillaDSP with Moode Player is described here: http://moodeaudio.org/forum/showthread.php?tid=3617
+
 CamillaDSP is available here: https://github.com/HEnquist/camilladsp
+
 The Crossfeed filter is taken from here: https://www.bitlab.nl/wp-content/uploads/2021/03/linkwitz_1971.yml
 
