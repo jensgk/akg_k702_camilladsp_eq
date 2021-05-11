@@ -1,4 +1,6 @@
 
+# Headphone EQ and Crossfeed with AKG K702 headphones
+
 These are CamillaDSP configuration files for Moode Player to do headphone EQ and Crossfeed with AKG K702 headphones.
 
 My audio chain is:
@@ -8,12 +10,19 @@ I am using the new CamillaDSP, available in Moode Player.
 
 I have made the following setup files:
 
-headphone_AKG_K702_EQ_CamillaDSP.yml is pure headphone EQ, using the crinacle settings from AutoEQ.
-headphone_AKG_K702_EQ_CamillaDSP_w_xfeed.yml is the same EQ as above, but with a Crossfeed filter behind.
+*  "headphone_AKG_K702_EQ_CamillaDSP.yml" is pure headphone EQ, using the crinacle settings from AutoEQ.
 
-To upload them, choose Configure -> Audio -> CamillaDSP Edit -> Pipeline configuration: UPLOAD
-Then upload the two files one by one, and press SAVE (top of CamillaDSP Config page)
-To use them, just choose the file under CamillaDSP Config: General -> Configuration dropdown list, and press SAVE (top of CamillaDSP Config page).
+*  "headphone_AKG_K702_EQ_CamillaDSP_w_xfeed.yml" is the same EQ as above, but with a Crossfeed filter behind.
+
+## Instructions
+
+1. To upload them, choose Configure -> Audio -> CamillaDSP Edit -> Pipeline configuration: UPLOAD
+
+2. Then upload the two files one by one, and press SAVE (top of CamillaDSP Config page)
+
+3. To use them, just choose the file under CamillaDSP Config: General -> Configuration dropdown list, and press SAVE (top of CamillaDSP Config page).
+
+## Sources
 
 Moode Player is available from: http://moodeaudio.org/
 
