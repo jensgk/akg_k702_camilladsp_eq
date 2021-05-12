@@ -32,3 +32,6 @@ CamillaDSP is available here: https://github.com/HEnquist/camilladsp
 
 The Crossfeed filter is taken from here: https://www.bitlab.nl/wp-content/uploads/2021/03/linkwitz_1971.yml
 
+The overall config template was taken from here: https://gist.github.com/mshkrebtan/eebcf46cdaf8f1895a19b2a4dca126a8
+
+
