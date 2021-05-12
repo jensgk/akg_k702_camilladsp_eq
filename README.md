@@ -34,4 +34,6 @@ The Crossfeed filter is taken from here: https://www.bitlab.nl/wp-content/upload
 
 The overall config template was taken from here: https://gist.github.com/mshkrebtan/eebcf46cdaf8f1895a19b2a4dca126a8
 
+Thanks to all my sources!
+
 
