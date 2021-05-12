@@ -1,7 +1,7 @@
 
-# Headphone EQ and Crossfeed with AKG K702 headphones
+# Headphone EQ and Crossfeed for the AKG K702 headphones
 
-These are CamillaDSP configuration files for Moode Player to do headphone EQ and Crossfeed with AKG K702 headphones.
+These are CamillaDSP configuration files for Moode Player to do headphone EQ and Crossfeed for the AKG K702 headphones.
 
 My audio chain is:
 Flac-files/Spotify Connect/Airplay/mconnect Qobuz(uPnP) -> Raspberry Pi 3B running Moode Player 7.2.1 -> Topping E30 -> Topping L30 -> AKG K702 headphones.
