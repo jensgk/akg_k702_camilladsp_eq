@@ -1,0 +1,280 @@
+---
+# CamillaDSP setup file:
+# EQ setting for AKG K701 by Oratory1990 from
+# 26.04.21 v2.9 AKG K702:
+# https://www.reddit.com/r/oratory1990/wiki/index/list_of_presets
+# https://www.dropbox.com/s/033kxyf8a0o3iv6/AKG%20K702.pdf?dl=0
+#
+# Also see: 
+# https://github.com/scripple/alsa_cdsp
+# https://www.diyaudio.com/forums/pc-based/349818-camilladsp-cross-platform-iir-fir-engine-crossovers-correction-etc-198.html
+# 
+
+# With Crossfeed:
+# https://www.bitlab.nl/wp-content/uploads/2021/03/linkwitz_1971.yml
+
+devices:
+  samplerate: 96000
+  chunksize: 16384
+  silence_threshold: -60
+  silence_timeout: 3.0
+  capture:
+    type: Alsa
+    channels: 2
+    device: "hw:Loopback,1"
+    format: S24LE3
+  playback:
+    type: Alsa
+    channels: 2
+    device: "hw:v15,0"
+    format: S24LE3
+
+# devices:
+#   samplerate: $samplerate$
+#   chunksize: 16384
+#   queuelimit: 1
+#   capture:
+#     type: File
+#     channels: $channels$
+#     filename: "/dev/stdin"
+#     format: $format$
+#   playback:
+#     type: ALSA
+#     channels: $channels$
+#     device: "hw:0"
+#     format: S32LE
+
+# See R-function "slope" in 
+# "camilladsp_shelf.R" for calculating
+#   Highshelf & Lowshelf slope from 
+#   Q and Gain.
+
+filters:
+  AKGK702_oratory1990_26042021_gain:
+    type: Gain
+    parameters:
+      gain: -5.5
+
+  AKGK702_oratory1990_26042021_band01:
+    type: Biquad
+    parameters:
+      type: Lowshelf
+      freq: 105
+      gain: 5.5
+      # slope(Q= 0.71, gain= 5.5) => 12.09363
+      slope: 12.09363
+
+  AKGK702_oratory1990_26042021_band02:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 200
+      gain: -2.5
+      q: 0.5  
+      
+  AKGK702_oratory1990_26042021_band03:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 740
+      gain: 1.8
+      q: 1.4
+      
+  AKGK702_oratory1990_26042021_band04:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 1440
+      gain: 1.1
+      q: 2.0
+      
+  AKGK702_oratory1990_26042021_band05:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 2280 
+      gain: -6.5
+      q: 1.9
+      
+  AKGK702_oratory1990_26042021_band06:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 2700
+      gain: -0.8
+      q: 4.0
+
+  AKGK702_oratory1990_26042021_band07:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 3650
+      gain: 2.0
+      q: 1.4
+      
+  AKGK702_oratory1990_26042021_band08:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 5450
+      gain: -6.8
+      q: 4.0
+
+  AKGK702_oratory1990_26042021_band09:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 7450
+      gain: -2.9
+      q: 6.0
+      
+  AKGK702_oratory1990_26042021_band10: 
+    type: Biquad
+    parameters:
+      type: Highshelf 
+      freq: 11000
+      gain: -1.0
+      # slope(Q= 0.71, gain= -1.0) => 12.09824
+      slope: 12.09824
+
+  # Filters for Crossfeed
+  hp700:
+    type: Biquad
+    parameters:
+      freq: 700
+      gain: 2
+      slope: 6
+      type: Highshelf
+      
+  lp700:
+    type: Biquad
+    parameters:
+      freq: 700
+      type: LowpassFO
+      
+# Mixers for Crossfeed     
+mixers:
+  2to4:
+    channels:
+      in: 2
+      out: 4
+    mapping:
+    - dest: 0
+      mute: false
+      sources:
+      - channel: 0
+        gain: -2
+        inverted: false
+        mute: false
+    - dest: 1
+      mute: false
+      sources:
+      - channel: 0
+        gain: -5
+        inverted: false
+        mute: false
+    - dest: 2
+      mute: false
+      sources:
+      - channel: 1
+        gain: -5
+        inverted: false
+        mute: false
+    - dest: 3
+      mute: false
+      sources:
+      - channel: 1
+        gain: -2
+        inverted: false
+        mute: false
+  4to2:
+    channels:
+      in: 4
+      out: 2
+    mapping:
+    - dest: 0
+      mute: false
+      sources:
+      - channel: 0
+        gain: -2
+        inverted: false
+        mute: false
+      - channel: 2
+        gain: -2
+        inverted: false
+        mute: false
+    - dest: 1
+      mute: false
+      sources:
+      - channel: 1
+        gain: -2
+        inverted: false
+        mute: false
+      - channel: 3
+        gain: -2
+        inverted: false
+        mute: false  
+
+pipeline:
+
+# Crossfeed
+
+  - name: 2to4
+    type: Mixer
+  
+  - channel: 0
+    names:
+    - hp700
+    type: Filter
+    
+  - channel: 1
+    names:
+    - lp700
+    type: Filter
+    
+  - channel: 2
+    names:
+    - lp700
+    type: Filter
+    
+  - channel: 3
+    names:
+    - hp700
+    type: Filter
+    
+  - name: 4to2
+    type: Mixer
+
+
+# Headphone EQ
+
+  - type: Filter
+    channel: 0
+    names:
+      - AKGK702_oratory1990_26042021_gain
+      - AKGK702_oratory1990_26042021_band01
+      - AKGK702_oratory1990_26042021_band02
+      - AKGK702_oratory1990_26042021_band03
+      - AKGK702_oratory1990_26042021_band04
+      - AKGK702_oratory1990_26042021_band05
+      - AKGK702_oratory1990_26042021_band06
+      - AKGK702_oratory1990_26042021_band07
+      - AKGK702_oratory1990_26042021_band08
+      - AKGK702_oratory1990_26042021_band09
+      - AKGK702_oratory1990_26042021_band10
+
+  - type: Filter
+    channel: 1
+    names:
+      - AKGK702_oratory1990_26042021_gain
+      - AKGK702_oratory1990_26042021_band01
+      - AKGK702_oratory1990_26042021_band02
+      - AKGK702_oratory1990_26042021_band03
+      - AKGK702_oratory1990_26042021_band04
+      - AKGK702_oratory1990_26042021_band05
+      - AKGK702_oratory1990_26042021_band06
+      - AKGK702_oratory1990_26042021_band07
+      - AKGK702_oratory1990_26042021_band08
+      - AKGK702_oratory1990_26042021_band09
+      - AKGK702_oratory1990_26042021_band10
+      

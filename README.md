@@ -8,11 +8,20 @@ Flac-files/Spotify Connect/Airplay/mconnect Qobuz(uPnP) -> Raspberry Pi 3B runni
 
 I am using the new CamillaDSP, available in Moode Player.
 
-I have made the following setup files:
+## Setup files
 
-*  "headphone_AKG_K702_EQ_CamillaDSP.yml" is pure headphone EQ, using the crinacle settings from AutoEQ.
+Based on the Oratory1990 EQ settings (from https://www.reddit.com/r/oratory1990/) (These are the prefered setup files):
 
-*  "headphone_AKG_K702_EQ_CamillaDSP_w_xfeed.yml" is the same EQ as above, but with a Crossfeed filter behind.
+*  "AKG_K702_EQ_CamillaDSP_ORA.yml" is pure headphone EQ, using the Oratory1990 settings 
+
+*  "AKG_K702_EQ_CamillaDSP_ORA_w_xfeed.yml" is the same EQ as above, but with a Crossfeed filter behind.
+
+Based on the Crinacle EQ settings (from https://github.com/jaakkopasanen/AutoEq/tree/master/results):
+
+*  "AKG_K702_EQ_CamillaDSP_CRI.yml" is pure headphone EQ, using the Crinacle settings:
+
+*  "AKG_K702_EQ_CamillaDSP_CRI_w_xfeed.yml" is the same EQ as above, but with a Crossfeed filter behind.
+
 
 ## Instructions
 
