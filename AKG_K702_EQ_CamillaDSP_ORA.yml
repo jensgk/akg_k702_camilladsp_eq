@@ -59,7 +59,7 @@ filters:
       freq: 105
       gain: 5.5
       # slope(Q= 0.71, gain= 5.5) => 12.09363
-      slope: 12.09363
+      slope: 12.0
 
   AKGK702_oratory1990_26042021_band02:
     type: Biquad
@@ -132,7 +132,7 @@ filters:
       freq: 11000
       gain: -1.0
       # slope(Q= 0.71, gain= -1.0) => 12.09824
-      slope: 12.09824
+      slope: 12.0
 
 pipeline:
   - type: Filter
