@@ -61,7 +61,8 @@ filters:
       freq: 24
       gain: 5.0
       # slope(Q= 0.71, gain= 5.0) => 12.09443
-      slope: 12.0
+      # slope: 12.0
+      q: 0.71 
 
   AKGK702_oratory1990_14062021_band02:
     type: Biquad
@@ -70,7 +71,8 @@ filters:
       freq: 105
       gain: 5.5
       # slope(Q= 0.71, gain= 5.5) => 12.09363
-      slope: 12.0
+      # slope: 12.0
+      q: 0.71
       
   AKGK702_oratory1990_14062021_band03:
     type: Biquad
@@ -135,7 +137,8 @@ filters:
       freq: 12000
       gain: -1.0
       # slope(Q= 0.71, gain= -1.0) => 12.09824
-      slope: 12.0
+      # slope: 12.0
+      q: 0.71 
 
   # Filters for Crossfeed
   hp700:
