@@ -224,7 +224,6 @@ pipeline:
 
 # Headphone EQ
 
-pipeline:
   - type: Filter
     channel: 0
     names:
