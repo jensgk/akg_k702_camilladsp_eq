@@ -1,0 +1,257 @@
+---
+# CamillaDSP setup file:
+# EQ setting for Audio Technica ATH-M50X by Oratory1990 from
+# 28.04.21 v2.9 Audio Technica ATH-M50X:
+# https://www.reddit.com/r/oratory1990/wiki/index/list_of_presets
+#
+# Also see: 
+# https://github.com/scripple/alsa_cdsp
+# https://www.diyaudio.com/forums/pc-based/349818-camilladsp-cross-platform-iir-fir-engine-crossovers-correction-etc-198.html
+# 
+
+# With Crossfeed:
+# https://www.bitlab.nl/wp-content/uploads/2021/03/linkwitz_1971.yml
+
+devices:
+  samplerate: 96000
+  chunksize: 16384
+  silence_threshold: -60
+  silence_timeout: 3.0
+  capture:
+    type: Alsa
+    channels: 2
+    device: "hw:Loopback,1"
+    format: S24LE3
+  playback:
+    type: Alsa
+    channels: 2
+    device: "hw:v15,0"
+    format: S24LE3
+
+filters:
+  ATHM50X_oratory1990_28042021_gain:
+    type: Gain
+    parameters:
+      gain: -5
+
+  ATHM50X_oratory1990_28042021_band01:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 40
+      gain: -3.1
+      q: 0.6 
+
+  ATHM50X_oratory1990_28042021_band02:
+    type: Biquad
+    parameters:
+      type: Lowshelf
+      freq: 105
+      gain: 5.5
+      q: 0.71
+      
+  ATHM50X_oratory1990_28042021_band03:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 165
+      gain: -4.6
+      q: 0.9
+      
+  ATHM50X_oratory1990_28042021_band04:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 315
+      gain: 5.7
+      q: 1.4
+      
+  ATHM50X_oratory1990_28042021_band05:
+    type: Biquad
+    parameters:
+      type: Highshelf
+      freq: 2000
+      gain: 3.0
+      q: 0.71
+      
+  ATHM50X_oratory1990_28042021_band06:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 2800
+      gain: -5.5
+      q: 1.7
+
+  ATHM50X_oratory1990_28042021_band07:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 4340
+      gain: -5.6
+      q: 4.5
+      
+  ATHM50X_oratory1990_28042021_band08:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 7050
+      gain: -3.6
+      q: 6.0
+
+  ATHM50X_oratory1990_28042021_band09:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 8000
+      gain: -5.0
+      q: 5.0
+      
+  ATHM50X_oratory1990_28042021_band10: 
+    type: Biquad
+    parameters:
+      type: Highshelf 
+      freq: 11000
+      gain: -11.0
+      q: 0.71 
+
+  # Filters for Crossfeed
+  hp700:
+    type: Biquad
+    parameters:
+      freq: 700
+      gain: 2
+      slope: 6
+      type: Highshelf
+      
+  lp700:
+    type: Biquad
+    parameters:
+      freq: 700
+      type: LowpassFO
+      
+# Mixers for Crossfeed     
+mixers:
+  2to4:
+    channels:
+      in: 2
+      out: 4
+    mapping:
+    - dest: 0
+      mute: false
+      sources:
+      - channel: 0
+        gain: -2
+        inverted: false
+        mute: false
+    - dest: 1
+      mute: false
+      sources:
+      - channel: 0
+        gain: -5
+        inverted: false
+        mute: false
+    - dest: 2
+      mute: false
+      sources:
+      - channel: 1
+        gain: -5
+        inverted: false
+        mute: false
+    - dest: 3
+      mute: false
+      sources:
+      - channel: 1
+        gain: -2
+        inverted: false
+        mute: false
+  4to2:
+    channels:
+      in: 4
+      out: 2
+    mapping:
+    - dest: 0
+      mute: false
+      sources:
+      - channel: 0
+        gain: -2
+        inverted: false
+        mute: false
+      - channel: 2
+        gain: -2
+        inverted: false
+        mute: false
+    - dest: 1
+      mute: false
+      sources:
+      - channel: 1
+        gain: -2
+        inverted: false
+        mute: false
+      - channel: 3
+        gain: -2
+        inverted: false
+        mute: false  
+
+pipeline:
+
+# Crossfeed
+
+  - name: 2to4
+    type: Mixer
+  
+  - channel: 0
+    names:
+    - hp700
+    type: Filter
+    
+  - channel: 1
+    names:
+    - lp700
+    type: Filter
+    
+  - channel: 2
+    names:
+    - lp700
+    type: Filter
+    
+  - channel: 3
+    names:
+    - hp700
+    type: Filter
+    
+  - name: 4to2
+    type: Mixer
+
+# Headphone EQ
+
+pipeline:
+  - type: Filter
+    channel: 0
+    names:
+      - ATHM50X_oratory1990_28042021_gain
+      - ATHM50X_oratory1990_28042021_band01
+      - ATHM50X_oratory1990_28042021_band02
+      - ATHM50X_oratory1990_28042021_band03
+      - ATHM50X_oratory1990_28042021_band04
+      - ATHM50X_oratory1990_28042021_band05
+      - ATHM50X_oratory1990_28042021_band06
+      - ATHM50X_oratory1990_28042021_band07
+      - ATHM50X_oratory1990_28042021_band08
+      - ATHM50X_oratory1990_28042021_band09
+      - ATHM50X_oratory1990_28042021_band10
+
+  - type: Filter
+    channel: 1
+    names:
+      - ATHM50X_oratory1990_28042021_gain
+      - ATHM50X_oratory1990_28042021_band01
+      - ATHM50X_oratory1990_28042021_band02
+      - ATHM50X_oratory1990_28042021_band03
+      - ATHM50X_oratory1990_28042021_band04
+      - ATHM50X_oratory1990_28042021_band05
+      - ATHM50X_oratory1990_28042021_band06
+      - ATHM50X_oratory1990_28042021_band07
+      - ATHM50X_oratory1990_28042021_band08
+      - ATHM50X_oratory1990_28042021_band09
+      - ATHM50X_oratory1990_28042021_band10
+            
