@@ -1,0 +1,161 @@
+---
+# CamillaDSP setup file:
+# EQ setting for AKG K702 by Oratory1990 from
+# 14.06.21 v2.9 AKG K702:
+# https://www.reddit.com/r/oratory1990/wiki/index/list_of_presets
+#
+# Also see: 
+# https://github.com/scripple/alsa_cdsp
+# https://www.diyaudio.com/forums/pc-based/349818-camilladsp-cross-platform-iir-fir-engine-crossovers-correction-etc-198.html
+# 
+
+devices:
+  samplerate: 48000
+  chunksize: 16384
+  enable_rate_adjust: true
+  enable_resampling: true
+  silence_threshold: -60
+  silence_timeout: 3.0
+  capture:
+    type: Wasapi
+    channels: 2
+#    device: "Højtaler/Hovedtelefoner (Realtek High Definition Audio)"
+    device: "LEN T2254pC (Intel(R) lyd til skærm)"
+    format: FLOAT32LE
+    exclusive: false
+    loopback: true
+  playback:
+    type: Wasapi
+    channels: 2
+    device: "Hovedtelefoner (USB-C to 3.5mm Headphone Jack Adapter)"
+    format: FLOAT32LE
+    exclusive: false
+
+# See R-function "slope" in 
+# "camilladsp_shelf.R" for calculating
+#   Highshelf & Lowshelf slope from 
+#   Q and Gain.
+
+filters:
+  AKGK702_oratory1990_14062021_gain:
+    type: Gain
+    parameters:
+      gain: -10.4
+
+  AKGK702_oratory1990_14062021_band01:
+    type: Biquad
+    parameters:
+      type: Lowshelf
+      freq: 24
+      gain: 5.0
+      # slope(Q= 0.71, gain= 5.0) => 12.09443
+      # slope: 12.0
+      q: 0.71 
+
+  AKGK702_oratory1990_14062021_band02:
+    type: Biquad
+    parameters:
+      type: Lowshelf
+      freq: 105
+      gain: 5.5
+      # slope(Q= 0.71, gain= 5.5) => 12.09363
+      # slope: 12.0
+      q: 0.71
+      
+  AKGK702_oratory1990_14062021_band03:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 200
+      gain: -2.5
+      q: 0.5
+      
+  AKGK702_oratory1990_14062021_band04:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 740
+      gain: 2.4
+      q: 1.4
+      
+  AKGK702_oratory1990_14062021_band05:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 1000
+      gain: -1.2
+      q: 3.5
+      
+  AKGK702_oratory1990_14062021_band06:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 2280
+      gain: -5.3
+      q: 1.9
+
+  AKGK702_oratory1990_14062021_band07:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 2650
+      gain: -0.6
+      q: 5.0
+      
+  AKGK702_oratory1990_14062021_band08:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 3500
+      gain: 3.0
+      q: 1.4
+
+  AKGK702_oratory1990_14062021_band09:
+    type: Biquad
+    parameters:
+      type: Peaking
+      freq: 5500
+      gain: -5.0
+      q: 3.5
+      
+  AKGK702_oratory1990_14062021_band10: 
+    type: Biquad
+    parameters:
+      type: Highshelf 
+      freq: 12000
+      gain: -1.0
+      # slope(Q= 0.71, gain= -1.0) => 12.09824
+      # slope: 12.0
+      q: 0.71 
+
+pipeline:
+  - type: Filter
+    channel: 0
+    names:
+      - AKGK702_oratory1990_14062021_gain
+      - AKGK702_oratory1990_14062021_band01
+      - AKGK702_oratory1990_14062021_band02
+      - AKGK702_oratory1990_14062021_band03
+      - AKGK702_oratory1990_14062021_band04
+      - AKGK702_oratory1990_14062021_band05
+      - AKGK702_oratory1990_14062021_band06
+      - AKGK702_oratory1990_14062021_band07
+      - AKGK702_oratory1990_14062021_band08
+      - AKGK702_oratory1990_14062021_band09
+      - AKGK702_oratory1990_14062021_band10
+
+  - type: Filter
+    channel: 1
+    names:
+      - AKGK702_oratory1990_14062021_gain
+      - AKGK702_oratory1990_14062021_band01
+      - AKGK702_oratory1990_14062021_band02
+      - AKGK702_oratory1990_14062021_band03
+      - AKGK702_oratory1990_14062021_band04
+      - AKGK702_oratory1990_14062021_band05
+      - AKGK702_oratory1990_14062021_band06
+      - AKGK702_oratory1990_14062021_band07
+      - AKGK702_oratory1990_14062021_band08
+      - AKGK702_oratory1990_14062021_band09
+      - AKGK702_oratory1990_14062021_band10
+      
