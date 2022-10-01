@@ -18,6 +18,7 @@ devices:
   chunksize: 16384
   enable_rate_adjust: true
   enable_resampling: true
+  resampler_type: AccurateAsync   
   silence_threshold: -60
   silence_timeout: 3.0
   capture:
