@@ -1,144 +1,121 @@
----
-# CamillaDSP setup file:
-# EQ setting for Audio Technica ATH-M50X by Oratory1990 from
-# 28.04.21 v2.9 Audio Technica ATH-M50X:
-# https://www.reddit.com/r/oratory1990/wiki/index/list_of_presets
-#
-# Also see: 
-# https://github.com/scripple/alsa_cdsp
-# https://www.diyaudio.com/forums/pc-based/349818-camilladsp-cross-platform-iir-fir-engine-crossovers-correction-etc-198.html
-# 
-
 devices:
-  samplerate: 96000
+  capture:
+    channels: 2
+    device: hw:Loopback,1
+    format: S24LE3
+    type: Alsa
   chunksize: 16384
+  playback:
+    channels: 2
+    device: hw:v15,0
+    format: S24LE3
+    type: Alsa
+  samplerate: 96000
   silence_threshold: -60
   silence_timeout: 3.0
-  capture:
-    type: Alsa
-    channels: 2
-    device: "hw:Loopback,1"
-    format: S24LE3
-  playback:
-    type: Alsa
-    channels: 2
-    device: "hw:v15,0"
-    format: S24LE3
-
 filters:
-  ATHM50X_oratory1990_28042021_gain:
-    type: Gain
-    parameters:
-      gain: -5
-
   ATHM50X_oratory1990_28042021_band01:
-    type: Biquad
     parameters:
-      type: Peaking
       freq: 40
       gain: -3.1
-      q: 0.6 
-
-  ATHM50X_oratory1990_28042021_band02:
+      q: 0.6
+      type: Peaking
     type: Biquad
+  ATHM50X_oratory1990_28042021_band02:
     parameters:
-      type: Lowshelf
       freq: 105
       gain: 5.5
       q: 0.71
-      
-  ATHM50X_oratory1990_28042021_band03:
+      type: Lowshelf
     type: Biquad
+  ATHM50X_oratory1990_28042021_band03:
     parameters:
-      type: Peaking
       freq: 165
       gain: -4.6
       q: 0.9
-      
-  ATHM50X_oratory1990_28042021_band04:
-    type: Biquad
-    parameters:
       type: Peaking
+    type: Biquad
+  ATHM50X_oratory1990_28042021_band04:
+    parameters:
       freq: 315
       gain: 5.7
       q: 1.4
-      
-  ATHM50X_oratory1990_28042021_band05:
+      type: Peaking
     type: Biquad
+  ATHM50X_oratory1990_28042021_band05:
     parameters:
-      type: Highshelf
       freq: 2000
       gain: 3.0
       q: 0.71
-      
-  ATHM50X_oratory1990_28042021_band06:
+      type: Highshelf
     type: Biquad
+  ATHM50X_oratory1990_28042021_band06:
     parameters:
-      type: Peaking
       freq: 2800
       gain: -5.5
       q: 1.7
-
-  ATHM50X_oratory1990_28042021_band07:
-    type: Biquad
-    parameters:
       type: Peaking
+    type: Biquad
+  ATHM50X_oratory1990_28042021_band07:
+    parameters:
       freq: 4340
       gain: -5.6
       q: 4.5
-      
-  ATHM50X_oratory1990_28042021_band08:
-    type: Biquad
-    parameters:
       type: Peaking
+    type: Biquad
+  ATHM50X_oratory1990_28042021_band08:
+    parameters:
       freq: 7050
       gain: -3.6
       q: 6.0
-
-  ATHM50X_oratory1990_28042021_band09:
-    type: Biquad
-    parameters:
       type: Peaking
+    type: Biquad
+  ATHM50X_oratory1990_28042021_band09:
+    parameters:
       freq: 8000
       gain: -5.0
       q: 5.0
-      
-  ATHM50X_oratory1990_28042021_band10: 
+      type: Peaking
     type: Biquad
+  ATHM50X_oratory1990_28042021_band10:
     parameters:
-      type: Highshelf 
       freq: 11000
       gain: -11.0
-      q: 0.71 
-
+      q: 0.71
+      type: Highshelf
+    type: Biquad
+  ATHM50X_oratory1990_28042021_gain:
+    parameters:
+      gain: -5
+    type: Gain
 pipeline:
-  - type: Filter
-    channel: 0
-    names:
-      - ATHM50X_oratory1990_28042021_gain
-      - ATHM50X_oratory1990_28042021_band01
-      - ATHM50X_oratory1990_28042021_band02
-      - ATHM50X_oratory1990_28042021_band03
-      - ATHM50X_oratory1990_28042021_band04
-      - ATHM50X_oratory1990_28042021_band05
-      - ATHM50X_oratory1990_28042021_band06
-      - ATHM50X_oratory1990_28042021_band07
-      - ATHM50X_oratory1990_28042021_band08
-      - ATHM50X_oratory1990_28042021_band09
-      - ATHM50X_oratory1990_28042021_band10
-
-  - type: Filter
-    channel: 1
-    names:
-      - ATHM50X_oratory1990_28042021_gain
-      - ATHM50X_oratory1990_28042021_band01
-      - ATHM50X_oratory1990_28042021_band02
-      - ATHM50X_oratory1990_28042021_band03
-      - ATHM50X_oratory1990_28042021_band04
-      - ATHM50X_oratory1990_28042021_band05
-      - ATHM50X_oratory1990_28042021_band06
-      - ATHM50X_oratory1990_28042021_band07
-      - ATHM50X_oratory1990_28042021_band08
-      - ATHM50X_oratory1990_28042021_band09
-      - ATHM50X_oratory1990_28042021_band10
-            
+- channels:
+  - 0
+  names:
+  - ATHM50X_oratory1990_28042021_gain
+  - ATHM50X_oratory1990_28042021_band01
+  - ATHM50X_oratory1990_28042021_band02
+  - ATHM50X_oratory1990_28042021_band03
+  - ATHM50X_oratory1990_28042021_band04
+  - ATHM50X_oratory1990_28042021_band05
+  - ATHM50X_oratory1990_28042021_band06
+  - ATHM50X_oratory1990_28042021_band07
+  - ATHM50X_oratory1990_28042021_band08
+  - ATHM50X_oratory1990_28042021_band09
+  - ATHM50X_oratory1990_28042021_band10
+  type: Filter
+- channels:
+  - 1
+  names:
+  - ATHM50X_oratory1990_28042021_gain
+  - ATHM50X_oratory1990_28042021_band01
+  - ATHM50X_oratory1990_28042021_band02
+  - ATHM50X_oratory1990_28042021_band03
+  - ATHM50X_oratory1990_28042021_band04
+  - ATHM50X_oratory1990_28042021_band05
+  - ATHM50X_oratory1990_28042021_band06
+  - ATHM50X_oratory1990_28042021_band07
+  - ATHM50X_oratory1990_28042021_band08
+  - ATHM50X_oratory1990_28042021_band09
+  - ATHM50X_oratory1990_28042021_band10
+  type: Filter

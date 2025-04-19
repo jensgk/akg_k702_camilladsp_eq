@@ -1,159 +1,121 @@
----
-# CamillaDSP setup file:
-# EQ setting for Sennheiser  HD560S by Oratory1990 from
-# 06.01.22 v2.9 Sennheiser HD560S:
-# https://www.reddit.com/r/oratory1990/wiki/index/list_of_presets
-#
-# Also see: 
-# https://github.com/scripple/alsa_cdsp
-# https://www.diyaudio.com/forums/pc-based/349818-camilladsp-cross-platform-iir-fir-engine-crossovers-correction-etc-198.html
-# 
-
 devices:
-  samplerate: 96000
+  capture:
+    channels: 2
+    device: hw:Loopback,1
+    format: S24LE3
+    type: Alsa
   chunksize: 16384
+  playback:
+    channels: 2
+    device: hw:v15,0
+    format: S24LE3
+    type: Alsa
+  samplerate: 96000
   silence_threshold: -60
   silence_timeout: 3.0
-  capture:
-    type: Alsa
-    channels: 2
-    device: "hw:Loopback,1"
-    format: S24LE3
-  playback:
-    type: Alsa
-    channels: 2
-    device: "hw:v15,0"
-    format: S24LE3
-
-# devices:
-#   samplerate: $samplerate$
-#   chunksize: 16384
-#   queuelimit: 1
-#   capture:
-#     type: File
-#     channels: $channels$
-#     filename: "/dev/stdin"
-#     format: $format$
-#   playback:
-#     type: ALSA
-#     channels: $channels$
-#     device: "hw:0"
-#     format: S32LE
-
 filters:
-  SENNHD560S_oratory1990_06012022_gain:
-    type: Gain
-    parameters:
-      gain: -5.4
-
   SENNHD560S_oratory1990_06012022_band01:
-    type: Biquad
     parameters:
-      type: Peaking
       freq: 53
       gain: -2.3
-      q: 1.0 
-
-  SENNHD560S_oratory1990_06012022_band02:
+      q: 1.0
+      type: Peaking
     type: Biquad
+  SENNHD560S_oratory1990_06012022_band02:
     parameters:
-      type: Lowshelf
       freq: 105
       gain: 5.5
       q: 0.71
-      
-  SENNHD560S_oratory1990_06012022_band03:
+      type: Lowshelf
     type: Biquad
+  SENNHD560S_oratory1990_06012022_band03:
     parameters:
-      type: Peaking
       freq: 140
       gain: -1.8
       q: 0.7
-      
-  SENNHD560S_oratory1990_06012022_band04:
-    type: Biquad
-    parameters:
       type: Peaking
+    type: Biquad
+  SENNHD560S_oratory1990_06012022_band04:
+    parameters:
       freq: 1350
       gain: -3.2
       q: 1.5
-      
-  SENNHD560S_oratory1990_06012022_band05:
-    type: Biquad
-    parameters:
       type: Peaking
+    type: Biquad
+  SENNHD560S_oratory1990_06012022_band05:
+    parameters:
       freq: 1830
       gain: 2.3
       q: 1.3
-      
-  SENNHD560S_oratory1990_06012022_band06:
-    type: Biquad
-    parameters:
       type: Peaking
+    type: Biquad
+  SENNHD560S_oratory1990_06012022_band06:
+    parameters:
       freq: 3230
       gain: -1.3
       q: 4.0
-
-  SENNHD560S_oratory1990_06012022_band07:
-    type: Biquad
-    parameters:
       type: Peaking
+    type: Biquad
+  SENNHD560S_oratory1990_06012022_band07:
+    parameters:
       freq: 4420
       gain: -3.1
       q: 4.5
-      
-  SENNHD560S_oratory1990_06012022_band08:
-    type: Biquad
-    parameters:
       type: Peaking
+    type: Biquad
+  SENNHD560S_oratory1990_06012022_band08:
+    parameters:
       freq: 5600
       gain: -4.1
       q: 2.5
-
-  SENNHD560S_oratory1990_06012022_band09:
-    type: Biquad
-    parameters:
       type: Peaking
+    type: Biquad
+  SENNHD560S_oratory1990_06012022_band09:
+    parameters:
       freq: 7000
       gain: 2.5
       q: 1.2
-      
-  SENNHD560S_oratory1990_06012022_band10: 
+      type: Peaking
     type: Biquad
+  SENNHD560S_oratory1990_06012022_band10:
     parameters:
-      type: Highshelf 
       freq: 10000
       gain: -1.0
-      q: 0.71 
-
+      q: 0.71
+      type: Highshelf
+    type: Biquad
+  SENNHD560S_oratory1990_06012022_gain:
+    parameters:
+      gain: -5.4
+    type: Gain
 pipeline:
-  - type: Filter
-    channel: 0
-    names:
-      - SENNHD560S_oratory1990_06012022_gain
-      - SENNHD560S_oratory1990_06012022_band01
-      - SENNHD560S_oratory1990_06012022_band02
-      - SENNHD560S_oratory1990_06012022_band03
-      - SENNHD560S_oratory1990_06012022_band04
-      - SENNHD560S_oratory1990_06012022_band05
-      - SENNHD560S_oratory1990_06012022_band06
-      - SENNHD560S_oratory1990_06012022_band07
-      - SENNHD560S_oratory1990_06012022_band08
-      - SENNHD560S_oratory1990_06012022_band09
-      - SENNHD560S_oratory1990_06012022_band10
-
-  - type: Filter
-    channel: 1
-    names:
-      - SENNHD560S_oratory1990_06012022_gain
-      - SENNHD560S_oratory1990_06012022_band01
-      - SENNHD560S_oratory1990_06012022_band02
-      - SENNHD560S_oratory1990_06012022_band03
-      - SENNHD560S_oratory1990_06012022_band04
-      - SENNHD560S_oratory1990_06012022_band05
-      - SENNHD560S_oratory1990_06012022_band06
-      - SENNHD560S_oratory1990_06012022_band07
-      - SENNHD560S_oratory1990_06012022_band08
-      - SENNHD560S_oratory1990_06012022_band09
-      - SENNHD560S_oratory1990_06012022_band10
-      
+- channels:
+  - 0
+  names:
+  - SENNHD560S_oratory1990_06012022_gain
+  - SENNHD560S_oratory1990_06012022_band01
+  - SENNHD560S_oratory1990_06012022_band02
+  - SENNHD560S_oratory1990_06012022_band03
+  - SENNHD560S_oratory1990_06012022_band04
+  - SENNHD560S_oratory1990_06012022_band05
+  - SENNHD560S_oratory1990_06012022_band06
+  - SENNHD560S_oratory1990_06012022_band07
+  - SENNHD560S_oratory1990_06012022_band08
+  - SENNHD560S_oratory1990_06012022_band09
+  - SENNHD560S_oratory1990_06012022_band10
+  type: Filter
+- channels:
+  - 1
+  names:
+  - SENNHD560S_oratory1990_06012022_gain
+  - SENNHD560S_oratory1990_06012022_band01
+  - SENNHD560S_oratory1990_06012022_band02
+  - SENNHD560S_oratory1990_06012022_band03
+  - SENNHD560S_oratory1990_06012022_band04
+  - SENNHD560S_oratory1990_06012022_band05
+  - SENNHD560S_oratory1990_06012022_band06
+  - SENNHD560S_oratory1990_06012022_band07
+  - SENNHD560S_oratory1990_06012022_band08
+  - SENNHD560S_oratory1990_06012022_band09
+  - SENNHD560S_oratory1990_06012022_band10
+  type: Filter
